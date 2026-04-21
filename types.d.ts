@@ -15,6 +15,9 @@ type EventPayloadMapping = {
   getStaticData: StaticData;
   changeView: ViewName;
   sendFrameWindowAction: FrameWindowAction;
+  "updater:check": void;
+  "updater:download": void;
+  "updater:install": void;
 };
 
 type ViewName = "CPU" | "MEMORY" | "DISK";

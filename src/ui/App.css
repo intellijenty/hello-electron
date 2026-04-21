@@ -7,7 +7,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
   background: #f5f5f7;
   color: #1d1d1f;
 }
@@ -98,7 +99,13 @@ body {
   margin: 0 0 40px 0;
   letter-spacing: -0.02em;
   color: #1d1d1f;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
 }
 
 .love:hover {
@@ -266,4 +273,127 @@ body {
     width: 100%;
     height: 400px;
   }
+}
+
+.updater-overlay {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  width: 360px;
+}
+
+.updater-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: updater-in 0.25s ease;
+}
+
+@keyframes updater-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.updater-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.updater-badge {
+  background: #0a84ff;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.updater-badge--ready {
+  background: #34c759;
+}
+
+.updater-notes {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.6;
+  max-height: 120px;
+  overflow-y: auto;
+  border-left: 3px solid #e5e7eb;
+  padding-left: 10px;
+}
+
+.updater-meta {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+.updater-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.updater-progress {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.updater-progress-fill {
+  height: 100%;
+  background: #0a84ff;
+  transition: width 0.2s ease;
+}
+
+.updater-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.updater-primary,
+.updater-ghost {
+  flex: 1;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.updater-primary {
+  background: #0a84ff;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+.updater-primary:hover {
+  background: #0070d8;
+}
+
+.updater-ghost {
+  background: none;
+  color: #888;
+  border: 1px solid #e5e7eb;
+}
+.updater-ghost:hover {
+  color: #333;
+  border-color: #ccc;
+}
+
+.updater-error {
+  font-size: 13px;
+  color: #e53e3e;
+  margin: 0;
 }

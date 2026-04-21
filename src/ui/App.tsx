@@ -3,6 +3,7 @@ import "./App.css";
 import useStatistics from "./useStatistics";
 import Chart from "./Chart";
 import useStaticData from "./useStaticData";
+import UpdateManager from "./UpdateManager";
 
 const COLOR_MAP = {
   CPU: {
@@ -53,93 +54,96 @@ function App() {
   }, []);
 
   return (
-    <div className="app-container">
-      <header className="window-header">
-        <div className="window-controls">
-          <button
-            id="close"
-            className="control-btn close-btn"
-            onClick={() => window.electron.sendFrameWindowAction("CLOSE")}
-          />
-          <button
-            id="minimize"
-            className="control-btn minimize-btn"
-            onClick={() => window.electron.sendFrameWindowAction("MINIMIZE")}
-          />
-          <button
-            id="maximize"
-            className="control-btn maximize-btn"
-            onClick={() => window.electron.sendFrameWindowAction("MAXIMIZE")}
-          />
-        </div>
-        <div className="app-title">
-          <span className="title-text">System Monitor</span>
-        </div>
-      </header>
-
-      <div className="main-content">
-        <h1 className="hero-title">
-          Electron + Vite + React + Me + <span className="love">💗</span>
-        </h1>
-
-        <div className="dashboard-layout">
-          <aside className="sidebar">
-            <SidebarCard
-              title="CPU"
-              subtitle={staticData.data?.cpuModel ?? "Processing Unit"}
-              data={cpuUsage}
-              onClick={() => setView("CPU")}
-              fill={COLOR_MAP.CPU.fill}
-              stroke={COLOR_MAP.CPU.stroke}
-              shadow={COLOR_MAP.CPU.shadow}
-              isActive={view === "CPU"}
+    <>
+      <div className="app-container">
+        <header className="window-header">
+          <div className="window-controls">
+            <button
+              id="close"
+              className="control-btn close-btn"
+              onClick={() => window.electron.sendFrameWindowAction("CLOSE")}
             />
-            <SidebarCard
-              title="Memory"
-              subtitle={staticData.data?.totalMemoryGB + " GB RAM"}
-              data={memoryUsage}
-              onClick={() => setView("MEMORY")}
-              fill={COLOR_MAP.MEMORY.fill}
-              stroke={COLOR_MAP.MEMORY.stroke}
-              shadow={COLOR_MAP.MEMORY.shadow}
-              isActive={view === "MEMORY"}
+            <button
+              id="minimize"
+              className="control-btn minimize-btn"
+              onClick={() => window.electron.sendFrameWindowAction("MINIMIZE")}
             />
-            <SidebarCard
-              title="Storage"
-              subtitle={staticData.data?.totalStorage + " GB"}
-              data={diskUsage}
-              onClick={() => setView("DISK")}
-              fill={COLOR_MAP.DISK.fill}
-              stroke={COLOR_MAP.DISK.stroke}
-              shadow={COLOR_MAP.DISK.shadow}
-              isActive={view === "DISK"}
+            <button
+              id="maximize"
+              className="control-btn maximize-btn"
+              onClick={() => window.electron.sendFrameWindowAction("MAXIMIZE")}
             />
-          </aside>
+          </div>
+          <div className="app-title">
+            <span className="title-text">System Monitor</span>
+          </div>
+        </header>
 
-          <main className="main-chart">
-            <div className="chart-container" style={{ boxShadow: COLOR_MAP[view].shadow }}>
-              <div className="chart-header">
-                <h2 className="chart-title">
-                  {view === "MEMORY" ? "Memory" : view === "DISK" ? "Storage" : "CPU"} Usage
-                </h2>
-                <div
-                  className="chart-indicator"
-                  style={{ background: COLOR_MAP[view].stroke }}
-                ></div>
+        <div className="main-content">
+          <h1 className="hero-title">
+            Electron + Vite + React + Me + <span className="love">💗</span>
+          </h1>
+
+          <div className="dashboard-layout">
+            <aside className="sidebar">
+              <SidebarCard
+                title="CPU"
+                subtitle={staticData.data?.cpuModel ?? "Processing Unit"}
+                data={cpuUsage}
+                onClick={() => setView("CPU")}
+                fill={COLOR_MAP.CPU.fill}
+                stroke={COLOR_MAP.CPU.stroke}
+                shadow={COLOR_MAP.CPU.shadow}
+                isActive={view === "CPU"}
+              />
+              <SidebarCard
+                title="Memory"
+                subtitle={staticData.data?.totalMemoryGB + " GB RAM"}
+                data={memoryUsage}
+                onClick={() => setView("MEMORY")}
+                fill={COLOR_MAP.MEMORY.fill}
+                stroke={COLOR_MAP.MEMORY.stroke}
+                shadow={COLOR_MAP.MEMORY.shadow}
+                isActive={view === "MEMORY"}
+              />
+              <SidebarCard
+                title="Storage"
+                subtitle={staticData.data?.totalStorage + " GB"}
+                data={diskUsage}
+                onClick={() => setView("DISK")}
+                fill={COLOR_MAP.DISK.fill}
+                stroke={COLOR_MAP.DISK.stroke}
+                shadow={COLOR_MAP.DISK.shadow}
+                isActive={view === "DISK"}
+              />
+            </aside>
+
+            <main className="main-chart">
+              <div className="chart-container" style={{ boxShadow: COLOR_MAP[view].shadow }}>
+                <div className="chart-header">
+                  <h2 className="chart-title">
+                    {view === "MEMORY" ? "Memory" : view === "DISK" ? "Storage" : "CPU"} Usage
+                  </h2>
+                  <div
+                    className="chart-indicator"
+                    style={{ background: COLOR_MAP[view].stroke }}
+                  ></div>
+                </div>
+                <div className="chart-wrapper">
+                  <Chart
+                    fill={COLOR_MAP[view].fill}
+                    stroke={COLOR_MAP[view].stroke}
+                    data={activeViewData}
+                    maxDataPoints={10}
+                  />
+                </div>
               </div>
-              <div className="chart-wrapper">
-                <Chart
-                  fill={COLOR_MAP[view].fill}
-                  stroke={COLOR_MAP[view].stroke}
-                  data={activeViewData}
-                  maxDataPoints={10}
-                />
-              </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </div>
       </div>
-    </div>
+      <UpdateManager />
+    </>
   );
 }
 

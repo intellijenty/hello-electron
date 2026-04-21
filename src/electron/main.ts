@@ -4,6 +4,8 @@ import { getStaticData, pollResources } from "./resourceManager.js";
 import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
+import { initUpdater } from "./updater.js";
+import { UPDATER_IPC } from "../shared/updater.js";
 
 Menu.setApplicationMenu(null);
 
@@ -24,6 +26,13 @@ app.on("ready", () => {
   createTray(mainWindow);
   createMenu(mainWindow);
   handleCloseEvents(mainWindow);
+
+  if (app.isPackaged) {
+    const updater = initUpdater(() => mainWindow);
+    ipcMainOn(UPDATER_IPC.check, updater.check);
+    ipcMainOn(UPDATER_IPC.download, updater.download);
+    ipcMainOn(UPDATER_IPC.install, updater.install);
+  }
 
   pollResources(mainWindow);
 

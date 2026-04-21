@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
+    "composite": true,
     "strict": true,
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": ".",
-    "outDir": "../../dist-electron",
-    "skipLibCheck": true,
-    "types": ["../../types"]
-  },
-  "references": [{ "path": "../shared" }]
+    "outDir": "../../dist-electron/shared",
+    "declaration": true,
+    "skipLibCheck": true
+  }
 }

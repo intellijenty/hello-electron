@@ -1,16 +1,24 @@
 {
   "appId": "com.yashpz.hello-electron",
+  "productName": "Hello Electron",
   "files": ["dist-electron", "dist-react"],
-  "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
+  "extraResources": ["dist-electron/preload.js", "src/assets/**"],
   "icon": "./desktopIcon.png",
-  "mac": {
-    "target": "dmg"
+  "win": { "target": "nsis" },
+  "nsis": {
+    "oneClick": true,
+    "allowToChangeInstallationDirectory": false
   },
+  "mac": { "target": "dmg" },
   "linux": {
     "target": "AppImage",
     "category": "Utility"
   },
-  "win": {
-    "target": ["portable", "msi"]
-  }
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "intellijenty",
+      "repo": "hello-electron"
+    }
+  ]
 }

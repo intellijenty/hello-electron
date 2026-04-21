@@ -1,4 +1,6 @@
-const electron = require("electron");
+import electron from "electron";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { UPDATER_IPC, UpdaterAPI, UpdaterEvent } from '../shared/updater';
 
 electron.contextBridge.exposeInMainWorld("electron", {
   subscribeStatistics: (callback) => ipcOn("statistics", (stats: Statistics) => callback(stats)),
@@ -28,3 +30,17 @@ export function ipcSend<Key extends keyof EventPayloadMapping>(
 ) {
   electron.ipcRenderer.send(key, payload);
 }
+
+const api: UpdaterAPI = {
+  getVersion: () => ipcRenderer.invoke('app:version'),
+  check: () => ipcRenderer.send(UPDATER_IPC.check),
+  download: () => ipcRenderer.send(UPDATER_IPC.download),
+  install: () => ipcRenderer.send(UPDATER_IPC.install),
+  onEvent: (callback) => {
+    const handler = (_: IpcRendererEvent, event: UpdaterEvent) => callback(event);
+    ipcRenderer.on(UPDATER_IPC.event, handler);
+    return () => ipcRenderer.off(UPDATER_IPC.event, handler);
+  },
+};
+
+contextBridge.exposeInMainWorld('updater', api);
