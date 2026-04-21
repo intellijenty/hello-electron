@@ -32,9 +32,18 @@ function App() {
   const statistics = useStatistics(10);
   const staticData = useStaticData();
 
-  const cpuUsage = useMemo(() => statistics.map((item) => item.cpuUsage), [statistics]);
-  const memoryUsage = useMemo(() => statistics.map((item) => item.memoryUsage), [statistics]);
-  const diskUsage = useMemo(() => statistics.map((item) => item.storageUsage), [statistics]);
+  const cpuUsage = useMemo(
+    () => statistics.map((item) => item.cpuUsage),
+    [statistics],
+  );
+  const memoryUsage = useMemo(
+    () => statistics.map((item) => item.memoryUsage),
+    [statistics],
+  );
+  const diskUsage = useMemo(
+    () => statistics.map((item) => item.storageUsage),
+    [statistics],
+  );
 
   const activeViewData = useMemo(() => {
     switch (view) {
@@ -81,7 +90,7 @@ function App() {
 
         <div className="main-content">
           <h1 className="hero-title">
-            Electron + Vite + React + Me + <span className="love">💗</span>
+            <span className="love">Resource Monitor App</span>
           </h1>
 
           <div className="dashboard-layout">
@@ -119,10 +128,18 @@ function App() {
             </aside>
 
             <main className="main-chart">
-              <div className="chart-container" style={{ boxShadow: COLOR_MAP[view].shadow }}>
+              <div
+                className="chart-container"
+                style={{ boxShadow: COLOR_MAP[view].shadow }}
+              >
                 <div className="chart-header">
                   <h2 className="chart-title">
-                    {view === "MEMORY" ? "Memory" : view === "DISK" ? "Storage" : "CPU"} Usage
+                    {view === "MEMORY"
+                      ? "Memory"
+                      : view === "DISK"
+                        ? "Storage"
+                        : "CPU"}{" "}
+                    Usage
                   </h2>
                   <div
                     className="chart-indicator"
